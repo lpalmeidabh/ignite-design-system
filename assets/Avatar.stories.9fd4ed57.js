@@ -1,0 +1,2 @@
+import{A as t}from"./index.5fda09f0.js";import"./jsx-runtime.4d9562fe.js";import"./iframe.8c4e7744.js";import"./index.054b13a6.js";const i={title:"Data Display/Avatar",component:t,args:{src:"https://github.com/lpalmeidabh.png",alt:"Lucas Almeida"},argTypes:{src:{control:{type:"text"}}}},c={},p={args:{src:void 0}},e=["Primary","WithFallback"];export{c as Primary,p as WithFallback,e as __namedExportsOrder,i as default};
+//# sourceMappingURL=Avatar.stories.9fd4ed57.js.map
