@@ -1,5 +1,11 @@
 # @lpatestorg/eslint-config
 
+## 2.1.1
+
+### Patch Changes
+
+- New Components Toast and ToolTip
+
 ## 2.1.0
 
 ### Minor Changes

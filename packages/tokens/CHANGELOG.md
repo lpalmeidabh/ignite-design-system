@@ -1,5 +1,11 @@
 # @lpatestorg/tokens
 
+## 2.2.1
+
+### Patch Changes
+
+- New Components Toast and ToolTip
+
 ## 2.2.0
 
 ### Minor Changes
