@@ -10,18 +10,19 @@ import {
 import { ToastProvider } from '@radix-ui/react-toast'
 
 export interface ToastProps extends ComponentProps<typeof ToastContainer> {
-  title?: string
+  title: string
   message?: string
+  isOpen: boolean
 }
 
-export function Toast({ title, message, ...props }: ToastProps) {
-  const [open, setOpen] = useState(true)
+export function Toast({ isOpen, title, message, ...props }: ToastProps) {
+  const [open, setOpen] = useState(isOpen)
 
   useEffect(() => {
     if (open) {
       const timer = setTimeout(() => {
         setOpen(false)
-      }, 5000)
+      }, 3000)
       return () => clearTimeout(timer)
     }
   }, [open])
