@@ -1,48 +1,89 @@
-import { styled } from '../../styles'
+import { keyframes, styled } from '../../styles'
+import * as ToastPrimitive from '@radix-ui/react-toast'
 
-export const ToastContainer = styled('div', {
-  width: '360px',
-  height: '85px',
+const VIEWPORT_PADDING = 25
+
+const hide = keyframes({
+  '0%': { opacity: 1 },
+  '100%': { opacity: 0 },
+})
+
+const slideIn = keyframes({
+  from: { transform: `translateX(calc(100% + ${VIEWPORT_PADDING}px))` },
+  to: { transform: 'translateX(0)' },
+})
+
+const swipeOut = keyframes({
+  from: { transform: 'translateX(var(--radix-toast-swipe-end-x))' },
+  to: { transform: `translateX(calc(100% + ${VIEWPORT_PADDING}px))` },
+})
+
+export const ToastViewport = styled(ToastPrimitive.Viewport, {
   position: 'fixed',
-  bottom: 30,
-  right: 20,
-
-  zIndex: 1000,
-  borderRadius: '4px',
-  backgroundColor: '$gray800',
-  border: '2px solid $gray400',
-  padding: '$2 $4',
-})
-
-export const ToastContent = styled('div', {
-  lineHeight: 1.6,
-  fontFamily: '$default',
-})
-export const ToastTitle = styled('div', {
-  color: '$white',
-  fontSize: '$md',
-  fontWeight: 'bold',
-})
-
-export const ToastMessage = styled('div', {
-  color: '$gray200',
-  fontSize: '$sm',
-  flex: 1,
+  bottom: 0,
+  right: 0,
   display: 'flex',
+  flexDirection: 'column',
+  padding: VIEWPORT_PADDING,
+  gap: 10,
+  width: 390,
+  maxWidth: '100vw',
+  margin: 0,
+  listStyle: 'none',
+  zIndex: 2147483647,
+  outline: 'none',
 })
 
-export const ToastClose = styled('button', {
-  position: 'absolute',
-  top: 10,
-  right: 10,
-  border: 'none',
-  backgroundColor: '$transparent',
-  color: '$white',
-  fontSize: '$md',
-  cursor: 'pointer',
+export const ToastContainer = styled(ToastPrimitive.Root, {
+  backgroundColor: '$gray700',
+  borderRadius: 4,
+  border: '2px solid $gray400',
+  padding: 15,
+  display: 'grid',
+  gridTemplateAreas: '"title action" "description action"',
+  gridTemplateColumns: 'auto max-content',
+  columnGap: 15,
+  alignItems: 'center',
+  fontFamily: '$default',
 
-  svg: {
-    width: '1rem',
-    height: '1rem',
+  '@media (prefers-reduced-motion: no-preference)': {
+    '&[data-state="open"]': {
+      animation: `${slideIn} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
+    },
+    '&[data-state="closed"]': {
+      animation: `${hide} 100ms ease-in`,
+    },
+    '&[data-swipe="move"]': {
+      transform: 'translateX(var(--radix-toast-swipe-move-x))',
+    },
+    '&[data-swipe="cancel"]': {
+      transform: 'translateX(0)',
+      transition: 'transform 200ms ease-out',
+    },
+    '&[data-swipe="end"]': {
+      animation: `${swipeOut} 100ms ease-out`,
+    },
   },
+})
+
+export const ToastTitle = styled(ToastPrimitive.Title, {
+  gridArea: 'title',
+  marginBottom: 5,
+  fontWeight: 500,
+  color: '$white',
+  fontSize: 15,
+})
+
+export const ToastDescription = styled(ToastPrimitive.Description, {
+  gridArea: 'description',
+  margin: 0,
+  color: '$gray200',
+  fontSize: 13,
+  lineHeight: 1.3,
+})
+
+export const ToastAction = styled(ToastPrimitive.Action, {
+  all: 'unset',
+  color: '$white',
+  backgroundColor: '$transparent',
 })

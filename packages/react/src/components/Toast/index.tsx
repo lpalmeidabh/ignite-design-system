@@ -1,13 +1,13 @@
-import { ComponentProps } from 'react'
-
-import {
-  ToastClose,
-  ToastContainer,
-  ToastContent,
-  ToastMessage,
-  ToastTitle,
-} from './styles'
+import { ComponentProps, useEffect, useState } from 'react'
 import { X } from 'phosphor-react'
+import {
+  ToastAction,
+  ToastContainer,
+  ToastDescription,
+  ToastTitle,
+  ToastViewport,
+} from './styles'
+import { ToastProvider } from '@radix-ui/react-toast'
 
 export interface ToastProps extends ComponentProps<typeof ToastContainer> {
   title?: string
@@ -15,15 +15,29 @@ export interface ToastProps extends ComponentProps<typeof ToastContainer> {
 }
 
 export function Toast({ title, message, ...props }: ToastProps) {
+  const [open, setOpen] = useState(true)
+
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => {
+        setOpen(false)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [open])
+
   return (
-    <ToastContainer {...props}>
-      <ToastContent>
-        <ToastClose>
-          <X />
-        </ToastClose>
+    <ToastProvider swipeDirection="right">
+      <ToastContainer open={open} onOpenChange={setOpen}>
         <ToastTitle>{title}</ToastTitle>
-        <ToastMessage>{message}</ToastMessage>
-      </ToastContent>
-    </ToastContainer>
+        <ToastDescription>{message}</ToastDescription>
+        <ToastAction altText="Fechar">
+          <X />
+        </ToastAction>
+      </ToastContainer>
+      <ToastViewport />
+    </ToastProvider>
   )
 }
+
+Toast.displayName = 'Toast'
